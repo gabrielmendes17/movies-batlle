@@ -77,4 +77,23 @@ public class MoviesBattle {
         System.out.println(gameMatch);
         return ResponseEntity.status(HttpStatus.CREATED).body(gameMatch.get());
     }
+
+    @GetMapping("/quizz")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> quizz(Principal principal) {
+        User user = userService.getUserFromPrincipal(principal);
+        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserId(user.getId());
+        if (gameMatch.isEmpty()) {
+            return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Error: No game match open was found!"));
+        }
+        GameRound gameRound = gameRoundRepository.save(new GameRound(gameMatch.get(), 0));
+
+        FilmCombination filmCombination = filmCombinationRepository.findFirst1ByUserIdAndAttemptsLessThanOrderByIdAsc(user.getId(), 3).get();
+
+        List<Film> findAllById = filmsRepository.findAllById(Arrays.asList(String.valueOf(filmCombination.getFirstFilmCombination()), String.valueOf(filmCombination.getSecondFilmCombination())));
+        
+        return ResponseEntity.status(HttpStatus.OK).body(findAllById);
+    }
 }
