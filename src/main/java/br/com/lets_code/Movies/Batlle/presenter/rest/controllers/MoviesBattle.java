@@ -1,16 +1,24 @@
 package br.com.lets_code.Movies.Batlle.presenter.rest.controllers;
 
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.lets_code.Movies.Batlle.core.entities.Film;
+import br.com.lets_code.Movies.Batlle.core.entities.FilmCombination;
 import br.com.lets_code.Movies.Batlle.core.entities.GameMatch;
+import br.com.lets_code.Movies.Batlle.core.entities.GameRound;
 import br.com.lets_code.Movies.Batlle.core.entities.User;
 import br.com.lets_code.Movies.Batlle.core.services.FilmCombinationService;
 import br.com.lets_code.Movies.Batlle.core.services.UserService;
@@ -19,6 +27,7 @@ import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmsRepositor
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.GameMatchRepository;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.GameRoundRepository;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.UserRepository;
+import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.response.MessageResponse;
 
 @RestController
 @RequestMapping("/api/movies_battle")
@@ -53,5 +62,19 @@ public class MoviesBattle {
         String filmsLength = System.getProperty("films_length");
         filmCombinationService.generateFilmCombination(Integer.parseInt(filmsLength), 2, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(game);
+    }
+
+    @PutMapping("/close")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> close(Principal principal) {
+        User user = userService.getUserFromPrincipal(principal);
+        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserId(user.getId());
+        if (gameMatch.isEmpty()) {
+            return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Error: No game match was found to close!"));
+        }
+        System.out.println(gameMatch);
+        return ResponseEntity.status(HttpStatus.CREATED).body(gameMatch.get());
     }
 }
