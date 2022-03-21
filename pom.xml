@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.lets_code</groupId>
-	<artifactId>Movies-Battlle</artifactId>
+	<artifactId>Movies-Batlle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Movies-Battlle</name>
-	<description>Movies Battlle Game</description>
+	<name>Movies-Batlle</name>
+	<description>Movies Batlle Game</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
