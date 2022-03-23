@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.lets_code.Movies.Batlle.core.entities.Film;
 import br.com.lets_code.Movies.Batlle.core.entities.FilmCombination;
 import br.com.lets_code.Movies.Batlle.core.entities.GameMatch;
-import br.com.lets_code.Movies.Batlle.core.entities.GameRound;
 import br.com.lets_code.Movies.Batlle.core.entities.User;
 import br.com.lets_code.Movies.Batlle.core.services.FilmCombinationService;
 import br.com.lets_code.Movies.Batlle.core.services.UserService;
@@ -31,7 +30,7 @@ import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.response.MessageRespon
 
 @RestController
 @RequestMapping("/api/movies_battle")
-public class MoviesBattle {
+public class MoviesBattleController {
     @Autowired
     UserRepository userRepository;
 
@@ -88,12 +87,26 @@ public class MoviesBattle {
             .badRequest()
             .body(new MessageResponse("Error: No game match open was found!"));
         }
-        GameRound gameRound = gameRoundRepository.save(new GameRound(gameMatch.get(), 0));
-
+        // GameRound gameRound = gameRoundRepository.save(new GameRound(gameMatch.get(), 0));
         FilmCombination filmCombination = filmCombinationRepository.findFirst1ByUserIdAndAttemptsLessThanOrderByIdAsc(user.getId(), 3).get();
-
         List<Film> findAllById = filmsRepository.findAllById(Arrays.asList(String.valueOf(filmCombination.getFirstFilmCombination()), String.valueOf(filmCombination.getSecondFilmCombination())));
-        
+        return ResponseEntity.status(HttpStatus.OK).body(findAllById);
+    }
+
+    @PostMapping("/quizz")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> quizzAnswer(Principal principal) {
+        User user = userService.getUserFromPrincipal(principal);
+        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserId(user.getId());
+        if (gameMatch.isEmpty()) {
+            System.out.println("Error: No game match open was found!");
+            return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Error: No game match open was found!"));
+        }
+        // GameRound gameRound = gameRoundRepository.save(new GameRound(gameMatch.get(), 0));
+        FilmCombination filmCombination = filmCombinationRepository.findFirst1ByUserIdAndAttemptsLessThanOrderByIdAsc(user.getId(), 3).get();
+        List<Film> findAllById = filmsRepository.findAllById(Arrays.asList(String.valueOf(filmCombination.getFirstFilmCombination()), String.valueOf(filmCombination.getSecondFilmCombination())));
         return ResponseEntity.status(HttpStatus.OK).body(findAllById);
     }
 }
