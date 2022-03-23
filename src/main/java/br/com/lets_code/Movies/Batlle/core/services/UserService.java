@@ -16,6 +16,7 @@ public class UserService {
     UserRepository userRepository;
     
     public User getUserFromPrincipal(Principal principal) {
+        System.out.println(principal.getName());
         User user = userRepository.findByUsername(principal.getName())
                 .orElseThrow(
                         () -> new UsernameNotFoundException("User Not Found with username: " + principal.getName()));

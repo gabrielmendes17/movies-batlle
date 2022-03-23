@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class QuizzRequest {
 	@NotBlank
-	private String username;
+	private String guessWinningMovieId;
 
 	@NotBlank
-	private String password;
+	private String guessLosingMovieId;
 }
