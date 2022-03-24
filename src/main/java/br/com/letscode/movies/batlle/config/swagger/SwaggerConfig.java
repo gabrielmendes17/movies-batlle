@@ -33,7 +33,7 @@ public class SwaggerConfig {
     public Docket salesApiSwagger() {
       return new Docket(DocumentationType.SWAGGER_2)
           .select()
-          .apis(RequestHandlerSelectors.basePackage("br.com.letscode.Movies.Batlle.presenter.rest.controllers"))
+          .apis(RequestHandlerSelectors.basePackage("br.com.letscode.movies.batlle.presenter.rest.controllers"))
           .paths(PathSelectors.any())
           .build().apiInfo(this.metaData());
     }
