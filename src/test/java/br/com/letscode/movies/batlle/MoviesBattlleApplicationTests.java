@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.com.letscode.movies.batlle.presenter.rest.controllers.MovieBattleController;
 import br.com.letscode.movies.batlle.presenter.rest.dtos.request.LoginRequest;
-import br.com.letscode.movies.batlle.presenter.rest.dtos.request.QuizzRequest;
+import br.com.letscode.movies.batlle.presenter.rest.dtos.request.QuizzGuessRequest;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -122,10 +122,10 @@ class MoviesBatlleApplicationTests {
 	void shouldReturnBadRequestWhenPlayerGuessWrongFilm() throws Exception {
 		// GIVEN
 		ObjectMapper mapper = new ObjectMapper();
-		var quizzRequest = new QuizzRequest("9999", "9998");
+		var QuizzGuessRequest = new QuizzGuessRequest("9999", "9998");
 		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(quizzRequest);
+		String requestJson = ow.writeValueAsString(QuizzGuessRequest);
 
 		// WHEN
 
@@ -153,10 +153,10 @@ class MoviesBatlleApplicationTests {
 	// 	String contentAsString = randomFilmsResponse.getContentAsString();
 	// 	List<Film> films = mapper.readValue(contentAsString, new TypeReference<List<Film>>(){});
 
-	// 	var quizzRequest = new QuizzRequest(films.get(0).getId(), films.get(1).getId());
+	// 	var QuizzGuessRequest = new QuizzGuessRequest(films.get(0).getId(), films.get(1).getId());
 	// 	mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 	// 	ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-	// 	String requestJson = ow.writeValueAsString(quizzRequest);
+	// 	String requestJson = ow.writeValueAsString(QuizzGuessRequest);
 
 	// 	Principal mockPrincipal = Mockito.mock(Principal.class);
 	// 	Mockito.when(mockPrincipal.getName()).thenReturn("GABRIEL");

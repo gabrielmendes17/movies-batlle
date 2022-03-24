@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuizzRequest {
+public class QuizzGuessRequest {
 	@NotBlank
 	private String guessWinningMovieId;
 

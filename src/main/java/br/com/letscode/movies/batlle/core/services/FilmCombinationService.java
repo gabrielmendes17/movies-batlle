@@ -1,21 +1,34 @@
 package br.com.letscode.movies.batlle.core.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.letscode.movies.batlle.core.entities.Film;
 import br.com.letscode.movies.batlle.core.entities.FilmCombination;
 import br.com.letscode.movies.batlle.core.entities.User;
 import br.com.letscode.movies.batlle.data_providers.repositories.FilmCombinationRepository;
+import br.com.letscode.movies.batlle.data_providers.repositories.FilmRepository;
 
 @Service
 public class FilmCombinationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FilmCombinationService.class);
     
     @Autowired
     FilmCombinationRepository filmCombinationRepository;
+
+    @Autowired
+    FilmRepository filmsRepository;
 
     private void helper(List<int[]> combinations, int data[], int start, int end, int index) {
         if (index == data.length) {
@@ -34,15 +47,20 @@ public class FilmCombinationService {
         return combinations;
     }
 
+    @Transactional
     public void generateFilmCombination(int n, int r, User user) {
         List<int[]> combination = this.generate(n, r);
         List<FilmCombination> filmsCombination = combination
             .stream()
             .map(comb -> new FilmCombination(0, comb[0], comb[1], user))
             .collect(Collectors.toList());
+        List<FilmCombination> films = filmCombinationRepository.saveAllAndFlush(filmsCombination);
+        logger.info("created {} films combination", films.size());
+    }
 
-        List<FilmCombination> saveAll = filmCombinationRepository.saveAll(filmsCombination);
-
-        System.out.println(saveAll);
+    public List<Film> getCurrentFilmCombination(User user) {
+        FilmCombination filmCombination = filmCombinationRepository.findFirst1ByUserIdAndAttemptsLessThanOrderByIdAsc(user.getId(), 3).get();
+        List<Film> films = filmsRepository.findAllById(Arrays.asList(String.valueOf(filmCombination.getFirstFilmCombination()), String.valueOf(filmCombination.getSecondFilmCombination())));
+        return films;
     }
 }

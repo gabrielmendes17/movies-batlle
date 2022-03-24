@@ -19,7 +19,7 @@ import br.com.letscode.movies.batlle.core.exceptions.WrongFilmCombinationGuess;
 import br.com.letscode.movies.batlle.data_providers.repositories.FilmCombinationRepository;
 import br.com.letscode.movies.batlle.data_providers.repositories.FilmRepository;
 import br.com.letscode.movies.batlle.data_providers.repositories.GameRoundRepository;
-import br.com.letscode.movies.batlle.presenter.rest.dtos.request.QuizzRequest;
+import br.com.letscode.movies.batlle.presenter.rest.dtos.request.QuizzGuessRequest;
 
 @Service
 public class GameRoundService {
@@ -43,7 +43,7 @@ public class GameRoundService {
         return films.get(0).getRating() > films.get(1).getRating();
     }
 
-    public Boolean handlePlayerGuess(QuizzRequest quizzRequest, Principal principal) throws GameMatchOpenNotFound, WrongFilmCombinationGuess {
+    public Boolean handlePlayerGuess(QuizzGuessRequest quizzRequest, Principal principal) throws GameMatchOpenNotFound, WrongFilmCombinationGuess {
         User user = userService.getUserFromPrincipal(principal);
         GameMatch gameMatch = gameMatchService.getCurrentGameMatchFromSessionPlayer(user);
         FilmCombination filmCombination = filmCombinationRepository.findFirst1ByUserIdAndAttemptsLessThanOrderByIdAsc(user.getId(), 3).get();
@@ -61,7 +61,7 @@ public class GameRoundService {
         return false;
 }
 
-    private void validatePlayerGuess(QuizzRequest quizzRequest, FilmCombination filmCombination) throws WrongFilmCombinationGuess {
+    private void validatePlayerGuess(QuizzGuessRequest quizzRequest, FilmCombination filmCombination) throws WrongFilmCombinationGuess {
         Supplier<Stream<String>> filmsStreamSupplier = () ->  Arrays.asList(String.valueOf(filmCombination.getFirstFilmCombination()), String.valueOf(filmCombination.getSecondFilmCombination())).stream();
         boolean isPlayerGuessingTheRightFilmCombination = filmsStreamSupplier.get().anyMatch(quizzRequest.getGuessLosingMovieId()::equals) && filmsStreamSupplier.get().anyMatch(quizzRequest.getGuessLosingMovieId()::equals);
         if (isPlayerGuessingTheRightFilmCombination) {
