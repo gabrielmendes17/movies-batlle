@@ -50,12 +50,15 @@ public class FilmCombinationService {
     @Transactional
     public void generateFilmCombination(int n, int r, User user) {
         List<int[]> combination = this.generate(n, r);
+        logger.info("films combination generated with success");
+        Collections.shuffle(combination);
+        logger.info("shuffling films combination");
         List<FilmCombination> filmsCombination = combination
             .stream()
             .map(comb -> new FilmCombination(0, comb[0], comb[1], user))
             .collect(Collectors.toList());
         List<FilmCombination> films = filmCombinationRepository.saveAllAndFlush(filmsCombination);
-        logger.info("created {} films combination", films.size());
+        logger.info("saved {} films combination", films.size());
     }
 
     public List<Film> getCurrentFilmCombination(User user) {
