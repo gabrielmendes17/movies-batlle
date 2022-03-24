@@ -83,7 +83,7 @@ public class MovieBattleController {
     }
 
     @GetMapping("/quizz")
-    public ResponseEntity<?> quizz(Principal principal) throws GameMatchOpenNotFound {
+    public ResponseEntity<List<Film>> quizz(Principal principal) throws GameMatchOpenNotFound {
         User user = userService.getUserFromPrincipal(principal);
         gameMatchService.getCurrentGameMatchFromSessionPlayer(user);
         List<Film> films = filmCombinationService.getCurrentFilmCombination(user);

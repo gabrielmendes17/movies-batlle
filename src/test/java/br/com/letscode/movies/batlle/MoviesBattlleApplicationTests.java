@@ -108,10 +108,13 @@ class MoviesBatlleApplicationTests {
 	@Test
 	@Order(3)
 	void shouldReturnAResposeWithANewFilmPair() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
 		Principal mockPrincipal = Mockito.mock(Principal.class);
 		Mockito.when(mockPrincipal.getName()).thenReturn("GABRIEL");
 		MockHttpServletResponse response = getNextRandomFilms();
 		int status = response.getStatus();
+		response.getContentAsString();
+		assertEquals(status, 200);
 	}
 
 	@Test
