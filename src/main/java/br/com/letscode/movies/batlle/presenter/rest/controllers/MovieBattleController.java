@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.letscode.movies.batlle.core.entities.Film;
-import br.com.letscode.movies.batlle.core.entities.GameMatch;
 import br.com.letscode.movies.batlle.core.entities.User;
 import br.com.letscode.movies.batlle.core.exceptions.ExistingGameMatchOpen;
 import br.com.letscode.movies.batlle.core.exceptions.GameMatchOpenNotFound;
@@ -70,7 +69,7 @@ public class MovieBattleController {
     @PostMapping("/begin")
     public ResponseEntity<MessageResponse> begin(Principal principal) throws ExistingGameMatchOpen {
         User user = userService.getUserFromPrincipal(principal);
-        GameMatch game = gameMatchService.createNewGameMatchFromSessionUser(user);
+        gameMatchService.createNewGameMatchFromSessionUser(user);
         String filmsLength = System.getProperty("films_length");
         filmCombinationService.generateFilmCombination(Integer.parseInt(filmsLength), 2, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Game match created with success!"));

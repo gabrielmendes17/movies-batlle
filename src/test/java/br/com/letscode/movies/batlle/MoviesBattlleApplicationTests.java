@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.security.Principal;
+import java.util.List;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,6 +27,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import br.com.letscode.movies.batlle.core.entities.Film;
 import br.com.letscode.movies.batlle.presenter.rest.controllers.MovieBattleController;
 import br.com.letscode.movies.batlle.presenter.rest.dtos.request.LoginRequest;
 import br.com.letscode.movies.batlle.presenter.rest.dtos.request.QuizzGuessRequest;
@@ -63,10 +66,7 @@ class MoviesBatlleApplicationTests {
 		
 		var result = mockMvc.perform(requestBuilder).andReturn();
 
-		System.out.println("Before All init() method called");
 		MockHttpServletResponse response = result.getResponse();
-		System.out.println(result.getResponse());
-		System.out.println(result.getResponse().getContentAsString());
 		assertEquals(response.getStatus(), 200);
 	}
 
@@ -85,10 +85,7 @@ class MoviesBatlleApplicationTests {
 		
 		var result = mockMvc.perform(requestBuilder).andReturn();
 
-		System.out.println("Before All init() method called");
 		MockHttpServletResponse response = result.getResponse();
-		System.out.println(result.getResponse());
-		System.out.println(result.getResponse().getContentAsString());
 		assertEquals(response.getStatus(), 401);
 	}
 
@@ -115,7 +112,6 @@ class MoviesBatlleApplicationTests {
 		Mockito.when(mockPrincipal.getName()).thenReturn("GABRIEL");
 		MockHttpServletResponse response = getNextRandomFilms();
 		int status = response.getStatus();
-		System.out.println(status);
 	}
 
 	@Test
@@ -144,39 +140,6 @@ class MoviesBatlleApplicationTests {
 		// THEN
 		assertEquals(status, 400);
 	}
-
-	// @Test
-	// void shouldReturnStatusOKWhenPlayerGuessRightFilm() throws Exception {
-	// 	// GIVEN
-	// 	ObjectMapper mapper = new ObjectMapper();
-	// 	MockHttpServletResponse randomFilmsResponse = getNextRandomFilms();
-	// 	String contentAsString = randomFilmsResponse.getContentAsString();
-	// 	List<Film> films = mapper.readValue(contentAsString, new TypeReference<List<Film>>(){});
-
-	// 	var QuizzGuessRequest = new QuizzGuessRequest(films.get(0).getId(), films.get(1).getId());
-	// 	mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-	// 	ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-	// 	String requestJson = ow.writeValueAsString(QuizzGuessRequest);
-
-	// 	Principal mockPrincipal = Mockito.mock(Principal.class);
-	// 	Mockito.when(mockPrincipal.getName()).thenReturn("GABRIEL");
-		
-	// 	// WHEN
-	// 	RequestBuilder requestBuilder = MockMvcRequestBuilders
-	// 		.post("http://localhost:8080/api/movies_battle/quizz")
-	// 		.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-	// 		.content(requestJson)
-	// 		.contentType(MediaType.APPLICATION_JSON);
-
-	// 	MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-	// 	MockHttpServletResponse response = result.getResponse();
-	// 	int status = response.getStatus();
-
-	// 	System.out.println("statusstatusstatusstatus");
-	// 	System.out.println(status);
-	// 	// THEN
-	// 	assertEquals(status, 200);
-	// }
 
 	private MockHttpServletResponse getNextRandomFilms() throws Exception {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
