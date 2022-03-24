@@ -8,7 +8,7 @@
 		<version>2.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.lets_code</groupId>
+	<groupId>br.com.letscode</groupId>
 	<artifactId>Movies-Batlle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Movies-Batlle</name>

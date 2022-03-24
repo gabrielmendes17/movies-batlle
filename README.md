@@ -28,7 +28,7 @@ $ make start
 ```
 
 #### Integration Tests
-Execute integration tests
+Execute Unit tests
 ```bash
-$ make integration-tests
+$ make test
 ```
