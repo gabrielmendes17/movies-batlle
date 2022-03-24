@@ -51,7 +51,7 @@ public class User implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<FilmCombination> filmCombination = new ArrayList<>();
 
   public User(String username, String email, String password) {

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,7 @@ public class GameMatch implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="USER_ID", nullable = false)
     private User user;
 
@@ -48,6 +49,6 @@ public class GameMatch implements Serializable {
     @Column(name = "FINISHED_AT")
     private LocalDateTime finishedAt;
 
-    @OneToMany(mappedBy = "gameMatch", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gameMatch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GameRound> gameRounds = new ArrayList<>();
 }
