@@ -96,13 +96,15 @@ public class MoviesBattleController {
             .body(new MessageResponse("Error: No game match open was found!"));
         }
         FilmCombination filmCombination = filmCombinationRepository.findFirst1ByUserIdAndAttemptsLessThanOrderByIdAsc(user.getId(), 3).get();
-        List<Film> findAllById = filmsRepository.findAllById(Arrays.asList(String.valueOf(filmCombination.getFirstFilmCombination()), String.valueOf(filmCombination.getSecondFilmCombination())));
-        return ResponseEntity.status(HttpStatus.OK).body(findAllById);
+        List<Film> films = filmsRepository.findAllById(Arrays.asList(String.valueOf(filmCombination.getFirstFilmCombination()), String.valueOf(filmCombination.getSecondFilmCombination())));
+        return ResponseEntity.status(HttpStatus.OK).body(films);
     }
 
     @PostMapping("/quizz")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> quizzAnswer(Principal principal, @RequestBody QuizzRequest quizzRequest) throws GameMatchOpenNotFound, WrongFilmCombinationGuess {
+        System.out.println("quizzAnswerquizzAnswer");
+        System.out.println(quizzRequest);
         Boolean success = gameRoundService.handlePlayerGuess(quizzRequest, principal);
         String mesage = success ? "Congratulations, your guess was rigth" : "Sorry, your guess was wrong, try again!";
         return ResponseEntity.ok().body(new MessageResponse(mesage));
