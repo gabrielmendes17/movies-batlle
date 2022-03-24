@@ -1,6 +1,9 @@
 package br.com.letscode.movies.batlle.presenter.rest.controllers;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -75,21 +78,23 @@ public class MovieBattleController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> close(Principal principal) {
         User user = userService.getUserFromPrincipal(principal);
-        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserId(user.getId());
-        if (gameMatch.isEmpty()) {
+        Optional<GameMatch> gameMatchOpational = gameMatchRepository.findByUserIdAndFinishedAtIsNull(user.getId());
+        if (gameMatchOpational.isEmpty()) {
             return ResponseEntity
             .badRequest()
             .body(new MessageResponse("Error: No game match was found to close!"));
         }
-        System.out.println(gameMatch);
-        return ResponseEntity.status(HttpStatus.CREATED).body(gameMatch.get());
+        GameMatch gameMatch = gameMatchOpational.get();
+        gameMatch.setFinishedAt(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+        gameMatchRepository.save(gameMatch);
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Game closed with success!"));
     }
 
     @GetMapping("/quizz")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> quizz(Principal principal) {
         User user = userService.getUserFromPrincipal(principal);
-        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserId(user.getId());
+        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserIdAndFinishedAtIsNull(user.getId());
         if (gameMatch.isEmpty()) {
             return ResponseEntity
             .badRequest()

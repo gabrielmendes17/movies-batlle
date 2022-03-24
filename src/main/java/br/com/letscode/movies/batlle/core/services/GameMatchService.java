@@ -20,7 +20,7 @@ public class GameMatchService {
     UserService userService;
 
     public GameMatch getCurrentGameMatchFromSessionPlayer(User user) throws GameMatchOpenNotFound {
-        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserId(user.getId());
+        Optional<GameMatch> gameMatch = gameMatchRepository.findByUserIdAndFinishedAtIsNull(user.getId());
         if (gameMatch.isEmpty()) {
             System.out.println("Error: No game match open was found!");
             throw new GameMatchOpenNotFound();

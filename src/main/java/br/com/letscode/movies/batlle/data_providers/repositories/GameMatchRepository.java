@@ -9,5 +9,5 @@ import br.com.letscode.movies.batlle.core.entities.GameMatch;
 
 @Repository
 public interface GameMatchRepository extends JpaRepository<GameMatch, Long>  {
-    Optional<GameMatch> findByUserId(final long userId);
+    Optional<GameMatch> findByUserIdAndFinishedAtIsNull(final long userId);
 }
