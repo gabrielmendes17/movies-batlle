@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.response.PlayerScore;
 
 @Repository
-public class UsersJdbcRepository {
+public class UserJdbcRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 

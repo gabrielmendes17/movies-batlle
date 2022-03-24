@@ -17,7 +17,7 @@ import br.com.lets_code.Movies.Batlle.core.entities.User;
 import br.com.lets_code.Movies.Batlle.core.exceptions.GameMatchOpenNotFound;
 import br.com.lets_code.Movies.Batlle.core.exceptions.WrongFilmCombinationGuess;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmCombinationRepository;
-import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmsRepository;
+import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmRepository;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.GameRoundRepository;
 import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.request.QuizzRequest;
 
@@ -28,7 +28,7 @@ public class GameRoundService {
     GameRoundRepository gameRoundRepository;
 
     @Autowired
-    FilmsRepository filmsRepository;
+    FilmRepository filmsRepository;
 
     @Autowired
     FilmCombinationRepository filmCombinationRepository;

@@ -18,7 +18,7 @@ import br.com.lets_code.Movies.Batlle.core.entities.Film;
 import br.com.lets_code.Movies.Batlle.data_providers.apis.dtos.FilmDetails;
 import br.com.lets_code.Movies.Batlle.data_providers.apis.dtos.GetIMDBResponse;
 import br.com.lets_code.Movies.Batlle.data_providers.apis.dtos.Search;
-import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmsRepository;
+import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,7 +31,7 @@ public class IMDBFilmStartupRunner implements ApplicationRunner {
   private final WebClient webClient;
 
   @Autowired
-  FilmsRepository filmsRepository;
+  FilmRepository filmsRepository;
 
   @Value("${key_films_search}")
   private List<String> keyFilmsSearch;

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.com.lets_code.Movies.Batlle.core.entities.Film;
 
 @Repository
-public interface FilmsRepository extends JpaRepository<Film, String> {
+public interface FilmRepository extends JpaRepository<Film, String> {
     
 }

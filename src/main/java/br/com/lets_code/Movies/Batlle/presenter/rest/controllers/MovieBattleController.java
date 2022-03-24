@@ -26,7 +26,7 @@ import br.com.lets_code.Movies.Batlle.core.services.FilmCombinationService;
 import br.com.lets_code.Movies.Batlle.core.services.GameRoundService;
 import br.com.lets_code.Movies.Batlle.core.services.UserService;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmCombinationRepository;
-import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmsRepository;
+import br.com.lets_code.Movies.Batlle.data_providers.repositories.FilmRepository;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.GameMatchRepository;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.GameRoundRepository;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.UserRepository;
@@ -35,7 +35,7 @@ import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.response.MessageRespon
 
 @RestController
 @RequestMapping("/api/movies_battle")
-public class MoviesBattleController {
+public class MovieBattleController {
     @Autowired
     UserRepository userRepository;
 
@@ -43,7 +43,7 @@ public class MoviesBattleController {
     GameMatchRepository gameMatchRepository;
 
     @Autowired
-    FilmsRepository filmsRepository;
+    FilmRepository filmsRepository;
 
     @Autowired
     FilmCombinationService filmCombinationService;

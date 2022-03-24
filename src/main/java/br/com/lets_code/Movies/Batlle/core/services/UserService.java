@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.lets_code.Movies.Batlle.core.entities.User;
 import br.com.lets_code.Movies.Batlle.data_providers.repositories.UserRepository;
-import br.com.lets_code.Movies.Batlle.data_providers.repositories.UsersJdbcRepository;
+import br.com.lets_code.Movies.Batlle.data_providers.repositories.UserJdbcRepository;
 import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.response.PlayerScore;
 
 @Service
@@ -19,7 +19,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Autowired
-    UsersJdbcRepository usersJdbcRepository;
+    UserJdbcRepository usersJdbcRepository;
      
     public User getUserFromPrincipal(Principal principal) {
         System.out.println(principal.getName());
