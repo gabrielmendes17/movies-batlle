@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.com.lets_code.Movies.Batlle.presenter.rest.controllers.MoviesBattleController;
 import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.request.LoginRequest;
+import br.com.lets_code.Movies.Batlle.presenter.rest.dtos.request.QuizzRequest;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -70,6 +71,28 @@ class MoviesBatlleApplicationTests {
 	}
 
 	@Test
+	void shouldReturn401WhenUserIsUnauthorized() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		var signIn = new LoginRequest("GABRIEL", "1234567");
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson= ow.writeValueAsString(signIn);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+			.post("http://localhost:8080/api/auth/signin")
+			.content(requestJson)
+			.contentType(MediaType.APPLICATION_JSON);
+		
+		var result = mockMvc.perform(requestBuilder).andReturn();
+
+		System.out.println("Before All init() method called");
+		MockHttpServletResponse response = result.getResponse();
+		System.out.println(result.getResponse());
+		System.out.println(result.getResponse().getContentAsString());
+		assertEquals(response.getStatus(), 401);
+	}
+
+	@Test
 	@Order(2)
 	void shouldCreateNewMoviesBatlleAndReturn201() throws Exception {
 		Principal mockPrincipal = Mockito.mock(Principal.class);
@@ -90,14 +113,45 @@ class MoviesBatlleApplicationTests {
 	void shouldReturnAResposeWithANewFilmPair() throws Exception {
 		Principal mockPrincipal = Mockito.mock(Principal.class);
 		Mockito.when(mockPrincipal.getName()).thenReturn("GABRIEL");
+		MockHttpServletResponse response = getNextRandomFilms();
+		int status = response.getStatus();
+		System.out.println(status);
+	}
+
+	@Test
+	void shouldReturnBadRequestWhenPlayerGuessWrongFilm() throws Exception {
+		// GIVEN
+		ObjectMapper mapper = new ObjectMapper();
+		var quizzRequest = new QuizzRequest("9999", "9998");
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(quizzRequest);
+
+		// WHEN
+
+		Principal mockPrincipal = Mockito.mock(Principal.class);
+		Mockito.when(mockPrincipal.getName()).thenReturn("GABRIEL");
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+			.post("http://localhost:8080/api/movies_battle/quizz")
+			.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+			.content(requestJson)
+			.contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		MockHttpServletResponse response = result.getResponse();
+		int status = response.getStatus();
+
+		// THEN
+		assertEquals(status, 400);
+	}
+
+	private MockHttpServletResponse getNextRandomFilms() throws Exception {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 			.get("http://localhost:8080/api/movies_battle/quizz")
 			.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 			.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
-		int status = response.getStatus();
-		System.out.println(status);
+		return response;
 	}
-
 }
