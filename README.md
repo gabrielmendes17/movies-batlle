@@ -33,7 +33,7 @@ Movies Batlle is a game wihch consumes information from imdb external api and di
 
 #### Authentication:
 * It's required to authenticate, get bearer token and then pass in the header before accessing the game routes.
-* There are two tests users
+*  There is two tests users test that can be passed to the body of the route http://localhost:8080/api/auth/signin to retrieve the token.
 ```bash
 {
     "username": "GABRIEL",
