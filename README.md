@@ -29,6 +29,25 @@ Movies Batlle is a game wihch consumes information from imdb external api and di
 * [Java](https://www.java.com/pt-BR/)
 * [Maven](https://maven.apache.org/)
 * [Spring](https://spring.io/)
+* [Spring-security](https://spring.io/projects/spring-security)
+
+#### Authentication:
+* It's required to authenticate, get bearer token and then pass in the header before accessing the game routes.
+* There are two tests users
+```bash
+{
+    "username": "GABRIEL",
+    "password": "123456"
+}
+```
+#### or
+
+```bash
+{
+    "username": "JOAO",
+    "password": "123456"
+}
+```
 
 #### Run application
 Execute integration tests
@@ -37,7 +56,7 @@ $ make start
 ```
 
 #### Integration Tests
-Execute Unit tests
+Execute Unit and integration tests
 ```bash
 $ make test
 ```
@@ -49,7 +68,7 @@ $ make test
     🔭 Given the approaches I had to make the requests in parallel, I chose to install the webflux dependency to use the webclient and then make asynchronous calls in parallel in the same thread. In addition to that, this chosen approach is more memory and CPU efficient.
 </p>
 <p align="left">  
-    🔭 Given the approaches I had to build movie combinations.
-      I chose an algorithm to create combinations with non repetitions and then shuffle before save combinations at database when user crete a new GameMatch.
-      In adittion to that when user close a match the systems delete entire combinations from database.
+    🔭 Given the approaches, I had to build movie combinations.<br />
+    I chose an algorithm to create combinations with nonrepetitions and then shuffle before saving combinations at the database when a user creates a new GameMatch.<br />
+    In addition to that when users closes a match the systems delete entire combinations from the database.
 </p>
