@@ -31,6 +31,10 @@ Movies Battle is a game that consumes information from IMDb external API and dis
 * [Spring](https://spring.io/)
 * [Spring-security](https://spring.io/projects/spring-security)
 
+#### Game Administration:
+* If the game administrator wants he can include films passing key phrases to application properties key_films_search.
+* With that he can insert movies into the game based on the taste of the players.
+
 #### Authentication:
 * It's required to authenticate, get bearer token and then pass in the header before accessing the game routes.
 *  There are two tests users that can be passed to the body of the route http://localhost:8080/api/auth/signin to retrieve the access token.
