@@ -4,7 +4,7 @@
 🗡️ Game to guess movies with the highest score.
 </p>
 
-Movies Batlle is a game wihch consumes information from imdb external api and displays movies in the form of a quiz for the player to guess.
+Movies Battle is a game that consumes information from IMDb external API and displays movies in the form of a quiz for the player to guess which movie has the greatest score.
 
 ## Functionalities:
 * Integration with external api [IMDB] (http://www.omdbapi.com/)
@@ -33,7 +33,7 @@ Movies Batlle is a game wihch consumes information from imdb external api and di
 
 #### Authentication:
 * It's required to authenticate, get bearer token and then pass in the header before accessing the game routes.
-*  There is two tests users test that can be passed to the body of the route http://localhost:8080/api/auth/signin to retrieve the token.
+*  There are two tests users that can be passed to the body of the route http://localhost:8080/api/auth/signin to retrieve the access token.
 ```bash
 {
     "username": "GABRIEL",
@@ -50,25 +50,23 @@ Movies Batlle is a game wihch consumes information from imdb external api and di
 ```
 
 #### Run application
-Execute integration tests
 ```bash
 $ make start
 ```
 
-#### Integration Tests
-Execute Unit and integration tests
+#### Unit and integration Tests
 ```bash
 $ make test
 ```
 #### Projects Decisions
 <p align="left">  
-    🔭 Application consumes movies data from external api so I made integration tests to avoid building manual mocks.
+    🔭 Application consumes movies data from external API so I made integration tests to avoid building manual mocks.
 </p>
 <p align="left">  
-    🔭 Given the approaches I had to make the requests in parallel, I chose to install the webflux dependency to use the webclient and then make asynchronous calls in parallel in the same thread. In addition to that, this chosen approach is more memory and CPU efficient.
+    🔭 Given the approaches I had to make the requests in parallel, I chose to install the web flux dependency to use the WebClient and then make asynchronous calls in parallel in the same thread. In addition to that, this chosen approach is more memory and CPU efficient.
 </p>
 <p align="left">  
     🔭 Given the approaches, I had to build movie combinations.<br />
-    I chose an algorithm to create combinations with nonrepetitions and then shuffle before saving combinations at the database when a user creates a new GameMatch.<br />
-    In addition to that when users closes a match the systems delete entire combinations from the database.
+    I chose an algorithm to create combinations with non-repetitions and then shuffle before saving combinations at the database when a user creates a new GameMatch.<br />
+    In addition to that when users close a match the systems delete entire combinations from the database.
 </p>
