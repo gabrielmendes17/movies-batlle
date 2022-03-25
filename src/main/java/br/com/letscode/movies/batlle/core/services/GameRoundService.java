@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,13 +59,13 @@ public class GameRoundService {
         validatePlayerGuess(quizzRequest, filmCombination);
         List<Film> films = filmsRepository.findAllById(Arrays.asList(quizzRequest.getGuessWinningMovieId(), quizzRequest.getGuessLosingMovieId()));
         if (this.guessSuccess(films, quizzRequest)) {
-            log.info("Player guess success {}, {}, {}", films.get(0).getRating(), films.get(1).getRating(), this.guessSuccess(films, quizzRequest));
+            log.info("Player guess success {}, {}", films.get(0).getRating(), films.get(1).getRating());
             gameRoundRepository.save(new GameRound(gameMatch, 1));
             filmCombination.setAttempts(3);
             filmCombinationRepository.save(filmCombination);
             return true;
         }
-        log.info("Player guess failure {}, {}, {}", films.get(0).getRating(), films.get(1).getRating(), this.guessSuccess(films, quizzRequest));
+        log.info("Player guess failure {}, {}", films.get(0).getRating(), films.get(1).getRating());
         gameRoundRepository.save(new GameRound(gameMatch, 0));
         filmCombination.setAttempts(filmCombination.getAttempts()+1);
         filmCombinationRepository.save(filmCombination);
