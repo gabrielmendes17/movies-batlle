@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.security.Principal;
-import java.util.List;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,7 +25,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import br.com.letscode.movies.batlle.core.entities.Film;
 import br.com.letscode.movies.batlle.presenter.rest.controllers.MovieBattleController;
 import br.com.letscode.movies.batlle.presenter.rest.dtos.request.LoginRequest;
 import br.com.letscode.movies.batlle.presenter.rest.dtos.request.QuizzGuessRequest;

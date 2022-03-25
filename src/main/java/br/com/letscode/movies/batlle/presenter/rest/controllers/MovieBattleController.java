@@ -37,7 +37,7 @@ import br.com.letscode.movies.batlle.presenter.rest.dtos.response.MessageRespons
 @RequestMapping("/api/movies_battle")
 @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 public class MovieBattleController {
-    private static final Logger logger = LoggerFactory.getLogger(MovieBattleController.class);
+    private static final Logger log = LoggerFactory.getLogger(MovieBattleController.class);
     
     @Autowired
     UserRepository userRepository;
@@ -92,8 +92,8 @@ public class MovieBattleController {
 
     @PostMapping("/quizz")
     public ResponseEntity<?> quizzAnswer(Principal principal, @RequestBody QuizzGuessRequest quizzRequest) throws GameMatchOpenNotFound, WrongFilmCombinationGuess {
-        logger.info("quizzAnswer: {}", quizzRequest.toString());
-        logger.info(quizzRequest.toString());
+        log.info("quizzAnswer: {}", quizzRequest.toString());
+        log.info(quizzRequest.toString());
         Boolean success = gameRoundService.handlePlayerGuess(quizzRequest, principal);
         String mesage = success ? "Congratulations, your guess was rigth" : "Sorry, your guess was wrong, try again!";
         return ResponseEntity.ok().body(new MessageResponse(mesage));

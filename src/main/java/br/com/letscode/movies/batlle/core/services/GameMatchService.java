@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import br.com.letscode.movies.batlle.data_providers.repositories.GameMatchReposi
 @Service
 public class GameMatchService {
 
+    private static final Logger log = LoggerFactory.getLogger(GameMatchService.class);
+
     @Autowired
     GameMatchRepository gameMatchRepository;
 
@@ -32,7 +36,7 @@ public class GameMatchService {
     public GameMatch getCurrentGameMatchFromSessionPlayer(User user) throws GameMatchOpenNotFound {
         Optional<GameMatch> gameMatch = gameMatchRepository.findByUserIdAndFinishedAtIsNull(user.getId());
         if (gameMatch.isEmpty()) {
-            System.out.println("Error: No game match open was found!");
+            log.error("Error: No game match open was found!");
             throw new GameMatchOpenNotFound();
         }
         return gameMatch.get();
@@ -49,6 +53,7 @@ public class GameMatchService {
     public GameMatch createNewGameMatchFromSessionUser(User user) throws ExistingGameMatchOpen {
         Optional<GameMatch> existingGameMatchOpened = gameMatchRepository.findByUserIdAndFinishedAtIsNull(user.getId());
         if (existingGameMatchOpened.isPresent()) {
+            log.error("Game match is already opened {}", existingGameMatchOpened.get().toString());
             throw new ExistingGameMatchOpen();
         }
         GameMatch game = gameMatchRepository.save(new GameMatch(user));

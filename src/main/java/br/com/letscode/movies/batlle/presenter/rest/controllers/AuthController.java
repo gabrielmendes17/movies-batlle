@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,6 +40,9 @@ import br.com.letscode.movies.batlle.presenter.rest.dtos.response.MessageRespons
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+  private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+
   @Autowired
   AuthenticationManager authenticationManager;
 
@@ -123,9 +128,8 @@ public class AuthController {
       });
     }
     user.setRoles(roles);
-    User save = userRepository.save(user);
-    System.out.println(save);
-
+    User userSaved = userRepository.save(user);
+    log.info("User [{}] registered successfully!", userSaved.getUsername());
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
 }

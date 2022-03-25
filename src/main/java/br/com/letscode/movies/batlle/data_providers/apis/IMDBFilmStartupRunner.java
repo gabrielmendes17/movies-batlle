@@ -96,6 +96,6 @@ public class IMDBFilmStartupRunner implements ApplicationRunner {
 
     filmsRepository.saveAll(films);
     
-    System.out.println(filmsSearch);
+    LOG.info("Saved {} new films at database", films.size());
   }
 }
